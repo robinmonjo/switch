@@ -1,0 +1,18 @@
+<h2>Show domain</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @domain.name %>
+  </li>
+
+  <li>
+    <strong>Redirect:</strong>
+    <%= @domain.redirect %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: domain_path(@conn, :edit, @domain) %>
+<%= link "Back", to: domain_path(@conn, :index) %>
