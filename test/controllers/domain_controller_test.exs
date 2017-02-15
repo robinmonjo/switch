@@ -2,7 +2,7 @@ defmodule Switch.DomainControllerTest do
   use Switch.ConnCase
 
   alias Switch.Domain
-  @valid_attrs %{name: "some content", redirect: "some content"}
+  @valid_attrs %{name: "http://domain.com", redirect: "https://redirect.com"}
   @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do
