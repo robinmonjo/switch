@@ -12,6 +12,16 @@
     <%= @domain.redirect %>
   </li>
 
+  <li>
+    <strong>Name checked:</strong>
+    <%= @domain.name_checked %>
+  </li>
+
+  <li>
+    <strong>Redirect checked:</strong>
+    <%= @domain.redirect_checked %>
+  </li>
+
 </ul>
 
 <%= link "Edit", to: domain_path(@conn, :edit, @domain) %>

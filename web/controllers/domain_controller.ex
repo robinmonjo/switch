@@ -17,7 +17,8 @@ defmodule Switch.DomainController do
     changeset = Domain.changeset(%Domain{}, domain_params)
 
     case Repo.insert(changeset) do
-      {:ok, _domain} ->
+      {:ok, domain} ->
+        Domain.async_validate_name_and_redirect(domain)
         conn
         |> put_flash(:info, "Domain created successfully.")
         |> redirect(to: domain_path(conn, :index))
@@ -43,6 +44,7 @@ defmodule Switch.DomainController do
 
     case Repo.update(changeset) do
       {:ok, domain} ->
+        Domain.async_validate_name_and_redirect(domain)
         conn
         |> put_flash(:info, "Domain updated successfully.")
         |> redirect(to: domain_path(conn, :show, domain))
