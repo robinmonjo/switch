@@ -24,8 +24,8 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 - [x] validate domains and redirect format (may do a custom validation with a DNS check to see if the redirected domain exists) => masterize this: https://hexdocs.pm/ecto/Ecto.Changeset.html
 - [x] validate domain NX record in a background task (over engineering :))
-- validate name != redirect
-- validate uniqueness of name
+- [x] validate name != redirect
+- [ ] validate uniqueness of name
 - authentication (user auth)
 - / road
 - last redirect_at

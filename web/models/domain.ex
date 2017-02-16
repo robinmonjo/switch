@@ -35,6 +35,7 @@ defmodule Switch.Domain do
     domain
     |> cast(params, [:name, :redirect, :name_checked, :redirect_checked])
     |> validate_required([:name, :redirect])
+    |> validate_redirect_not_equal_name
     |> validate_uri(:name)
     |> validate_uri(:redirect)
   end
@@ -60,5 +61,16 @@ defmodule Switch.Domain do
 
   defp validate_host(nil), do: {:error, "host can't be nil"}
   defp validate_host(_anything), do: :ok
+
+  defp validate_redirect_not_equal_name(changeset) do
+    validate_change changeset, :redirect, fn _, redirect ->
+      if get_change(changeset, :name) == redirect do
+        [{:redirect, "must be different than name"}]
+      else
+        []
+      end
+    end
+  end
+
 
 end

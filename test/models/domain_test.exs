@@ -49,6 +49,12 @@ defmodule Switch.DomainTest do
       refute changeset.valid?
     end
 
+    test "redirect URL equals name" do
+      changeset = Domain.changeset(%Domain{}, %{name: "http://domain.com", redirect: "http://domain.com"})
+      assert {:redirect, {"must be different than name", []}} in changeset.errors
+      refute changeset.valid?
+    end
+
   end
 
 
