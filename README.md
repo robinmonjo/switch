@@ -26,6 +26,7 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 - [x] validate domain NX record in a background task (over engineering :))
 - [x] validate name != redirect
 - [ ] validate uniqueness of name
-- authentication (user auth)
+- [ ] authentication from scratch: http://nithinbekal.com/posts/phoenix-authentication/
 - / road
 - last redirect_at
+- domains users pagination

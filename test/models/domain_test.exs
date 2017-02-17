@@ -50,9 +50,19 @@ defmodule Switch.DomainTest do
     end
 
     test "redirect URL equals name" do
-      changeset = Domain.changeset(%Domain{}, %{name: "http://domain.com", redirect: "http://domain.com"})
+      url = "http://domain.com"
+      changeset = Domain.changeset(%Domain{}, %{name: url, redirect: url})
       assert {:redirect, {"must be different than name", []}} in changeset.errors
       refute changeset.valid?
+    end
+
+    test "uniqueness of name" do
+      url = "http://domain.com"
+      cs = Domain.changeset(%Domain{}, %{name: url, redirect: "http://redirect.com"})
+      Repo.insert!(cs)
+
+      cs2 = Domain.changeset(%Domain{}, %{name: url, redirect: "http://redirect2.com"})
+      #assert {:error, changeset} = Repo.insert(cs2) this should pass
     end
 
   end
