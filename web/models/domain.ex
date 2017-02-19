@@ -46,7 +46,8 @@ defmodule Switch.Domain do
     validate_change changeset, field, fn _, url ->
       uri = URI.parse(url)
       with :ok <- validate_scheme(uri.scheme),
-           :ok <- validate_host(uri.host)
+           :ok <- validate_host(uri.host),
+           :ok <- validate_path(uri.path)
       do
         []
       else
@@ -63,6 +64,9 @@ defmodule Switch.Domain do
   defp validate_host(nil), do: {:error, "host can't be nil"}
   defp validate_host(_anything), do: :ok
 
+  defp validate_path(nil), do: :ok
+  defp validate_path(_anything), do: {:error, "no path must be set"}
+
   defp validate_redirect_not_equal_name(changeset) do
     validate_change changeset, :redirect, fn _, redirect ->
       if get_change(changeset, :name) == redirect do
@@ -72,6 +76,5 @@ defmodule Switch.Domain do
       end
     end
   end
-
 
 end

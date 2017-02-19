@@ -65,6 +65,13 @@ defmodule Switch.DomainTest do
       #assert {:error, changeset} = Repo.insert(cs2) this should pass
     end
 
+    test "URL with path" do
+      changeset = Domain.changeset(%Domain{}, %{name: "http://domain.com/", redirect: "http://redirect.com/test"})
+      assert {:name, {"no path must be set", []}} in changeset.errors
+      assert {:redirect, {"no path must be set", []}} in changeset.errors
+      refute changeset.valid?
+    end
+
   end
 
 

@@ -23,7 +23,7 @@ defmodule Switch.DomainControllerTest do
     test "creates resource and redirects when data is valid", %{conn: conn} do
       conn = post conn, domain_path(conn, :create), domain: @valid_attrs
       assert redirected_to(conn) == domain_path(conn, :index)
-      assert domain = Repo.get_by(Domain, @valid_attrs)
+      assert Repo.get_by(Domain, @valid_attrs)
     end
 
     test "does not create resource and renders errors when data is invalid", %{conn: conn} do

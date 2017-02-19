@@ -16,7 +16,7 @@ defmodule Switch.Router do
   scope "/", Switch do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/", RootController, :index
 
     resources "/domains", DomainController
   end
