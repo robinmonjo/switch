@@ -34,7 +34,7 @@ defmodule Switch.Domain do
   def changeset(domain, params \\ %{}) do
     domain
     |> cast(params, [:name, :redirect, :name_checked, :redirect_checked])
-    |> unique_constraint(:name) # this is not working :(
+    |> unique_constraint(:name)
     |> validate_required([:name, :redirect])
     |> validate_redirect_not_equal_name
     |> validate_uri(:name)
