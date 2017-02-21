@@ -37,3 +37,6 @@ config :switch, Switch.Repo,
   adapter: Mongo.Ecto,
   database: "switch_dev",
   pool_size: 10
+
+config :switch, Switch,
+  hostname: "localhost"

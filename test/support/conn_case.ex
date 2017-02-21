@@ -33,8 +33,6 @@ defmodule Switch.ConnCase do
   end
 
   setup tags do
-    
-
     unless tags[:async] do
       Mongo.Ecto.truncate(Switch.Repo, [])
     end

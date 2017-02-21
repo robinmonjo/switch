@@ -14,3 +14,6 @@ config :switch, Switch.Repo,
   adapter: Mongo.Ecto,
   database: "switch_test",
   pool_size: 1
+
+config :switch, Switch,
+  hostname: "www.example.com"

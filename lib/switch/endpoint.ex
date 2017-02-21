@@ -3,6 +3,8 @@ defmodule Switch.Endpoint do
 
   socket "/socket", Switch.UserSocket
 
+  plug Switch.HostSwitch # where the logic happens
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
