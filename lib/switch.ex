@@ -6,6 +6,9 @@ defmodule Switch do
   def start(_type, _args) do
     import Supervisor.Spec
 
+    # create ETS cache
+    :ets.new(Application.fetch_env!(:switch, Switch)[:ets_cache_table], [:named_table, :set, :public])
+
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository

@@ -25,8 +25,17 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 - [x] validate domains and redirect format (may do a custom validation with a DNS check to see if the redirected domain exists) => masterize this: https://hexdocs.pm/ecto/Ecto.Changeset.html
 - [x] validate domain NX record in a background task (over engineering :))
 - [x] validate name != redirect
-- [ ] validate uniqueness of name
+- [x] validate uniqueness of name
+- [ ] invalidate cache when a domain get deleted
+- [ ] manually invalidate cache
+- [ ] consult cache
+- [ ] manually recheck domain existence
 - [ ] authentication from scratch: http://nithinbekal.com/posts/phoenix-authentication/
-- / road
 - last redirect_at
 - domains users pagination
+
+Login flow:
+- generate invitation link (invitation token)
+- send this link
+- the guy can connect with email and add users
+- only super admin can generate link to invite people
