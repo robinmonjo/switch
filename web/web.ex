@@ -75,6 +75,17 @@ defmodule Switch.Web do
     end
   end
 
+  def service do
+    quote do
+      alias Switch.Repo
+
+      import Ecto
+      import Ecto.Query
+    end
+  end
+
+
+
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """

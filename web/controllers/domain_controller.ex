@@ -1,7 +1,7 @@
 defmodule Switch.DomainController do
   use Switch.Web, :controller
 
-  alias Switch.Domain
+  alias Switch.{Domain, DomainService}
 
   def index(conn, _params) do
     domains = Repo.all(Domain)
@@ -14,11 +14,8 @@ defmodule Switch.DomainController do
   end
 
   def create(conn, %{"domain" => domain_params}) do
-    changeset = Domain.changeset(%Domain{}, domain_params)
-
-    case Repo.insert(changeset) do
+    case DomainService.insert(domain_params) do
       {:ok, domain} ->
-        Domain.async_validate_name_and_redirect(domain)
         conn
         |> put_flash(:info, "Domain created successfully.")
         |> redirect(to: domain_path(conn, :index))
@@ -40,11 +37,9 @@ defmodule Switch.DomainController do
 
   def update(conn, %{"id" => id, "domain" => domain_params}) do
     domain = Repo.get!(Domain, id)
-    changeset = Domain.changeset(domain, domain_params)
 
-    case Repo.update(changeset) do
+    case DomainService.update(domain, domain_params) do
       {:ok, domain} ->
-        Domain.async_validate_name_and_redirect(domain)
         conn
         |> put_flash(:info, "Domain updated successfully.")
         |> redirect(to: domain_path(conn, :show, domain))
@@ -56,9 +51,7 @@ defmodule Switch.DomainController do
   def delete(conn, %{"id" => id}) do
     domain = Repo.get!(Domain, id)
 
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(domain)
+    DomainService.delete(domain)
 
     conn
     |> put_flash(:info, "Domain deleted successfully.")

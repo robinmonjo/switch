@@ -8,21 +8,6 @@ defmodule Switch.DomainTest do
     assert changeset.valid?
   end
 
-  test "validate domains exists" do
-    cs = Domain.changeset(%Domain{}, %{name: "http://www.google.com", redirect: "http://unknown_unknown.unknow"})
-    domain = Repo.insert!(cs)
-
-    assert domain.name_checked == false
-    assert domain.redirect_checked == false
-
-    Domain.async_validate_name_and_redirect(domain) |> Task.await
-
-    domain = Repo.get!(Domain, domain.id)
-
-    assert domain.name_checked == true
-    assert domain.redirect_checked == false
-  end
-
   describe "changeset with invalid attributes" do
 
     test "required attributes" do

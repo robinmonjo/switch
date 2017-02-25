@@ -11,23 +11,6 @@ defmodule Switch.Domain do
     timestamps()
   end
 
-  def async_validate_name_and_redirect(domain) do
-    Task.async fn ->
-      name_ok = domain_exists?(domain.name)
-      redirect_ok = domain_exists?(domain.redirect)
-      cs = changeset(domain, %{name_checked: name_ok, redirect_checked: redirect_ok})
-      Switch.Repo.update(cs) # ignoring potential errors
-    end
-  end
-
-  defp domain_exists?(url) do
-    host = URI.parse(url).host
-    case host |> to_char_list |> :inet.gethostbyname do
-      {:error, :nxdomain} -> false
-      _ -> true
-    end
-  end
-
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """

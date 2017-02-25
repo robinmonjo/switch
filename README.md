@@ -26,7 +26,7 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 - [x] validate domain NX record in a background task (over engineering :))
 - [x] validate name != redirect
 - [x] validate uniqueness of name
-- [ ] invalidate cache when a domain get deleted
+- [x] invalidate cache when a domain get deleted
 - [ ] manually invalidate cache
 - [ ] consult cache
 - [ ] manually recheck domain existence
