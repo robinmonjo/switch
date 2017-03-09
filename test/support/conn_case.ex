@@ -26,6 +26,7 @@ defmodule Switch.ConnCase do
       import Ecto.Query
 
       import Switch.Router.Helpers
+      import Switch.TestHelpers
 
       # The default endpoint for testing
       @endpoint Switch.Endpoint

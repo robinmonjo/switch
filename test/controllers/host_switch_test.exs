@@ -26,7 +26,7 @@ defmodule Switch.HostSwitchTest do
     conn = %{conn | host: "unknown.com"}
 
     conn = get conn, "/"
-    assert response(conn, 404) =~ "unknown.com has no match"
+    assert html_response(conn, 200) =~ "unknown.com is not registered :("
   end
 
   test "redirect with a path and a query", %{conn: conn} do

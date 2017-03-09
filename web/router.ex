@@ -7,6 +7,7 @@ defmodule Switch.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Switch.Auth, repo: Switch.Repo
   end
 
   pipeline :api do
@@ -14,11 +15,17 @@ defmodule Switch.Router do
   end
 
   scope "/", Switch do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser  # Use the default browser stack
 
     get "/", RootController, :index
 
-    resources "/domains", DomainController
+    resources "/users", UserController, only: [:index, :new, :create]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
+  end
+
+  scope "/domains", Switch do
+    pipe_through [:browser, :authenticate_user]
+    resources "/", DomainController
   end
 
   # Other scopes may use custom stacks.

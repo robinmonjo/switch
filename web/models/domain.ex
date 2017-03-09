@@ -8,6 +8,8 @@ defmodule Switch.Domain do
     field :name_checked, :boolean, default: false
     field :redirect_checked, :boolean, default: false
 
+    belongs_to :user, Switch.User
+
     timestamps()
   end
 
@@ -16,14 +18,13 @@ defmodule Switch.Domain do
   """
   def changeset(domain, params \\ %{}) do
     domain
-    |> cast(params, [:name, :redirect, :name_checked, :redirect_checked])
+    |> cast(params, [:name, :redirect, :name_checked, :redirect_checked, :user_id])
     |> unique_constraint(:name)
     |> validate_required([:name, :redirect])
     |> validate_redirect_not_equal_name
     |> validate_uri(:name)
     |> validate_uri(:redirect)
   end
-
 
   defp validate_uri(changeset, field) do
     validate_change changeset, field, fn _, url ->
@@ -57,6 +58,14 @@ defmodule Switch.Domain do
       else
         []
       end
+    end
+  end
+
+  def domain_exists?(url) do
+    host = URI.parse(url).host
+    case host |> to_char_list |> :inet.gethostbyname do
+      {:error, :nxdomain} -> false
+      _ -> true
     end
   end
 

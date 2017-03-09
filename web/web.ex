@@ -39,6 +39,7 @@ defmodule Switch.Web do
 
       import Switch.Router.Helpers
       import Switch.Gettext
+      import Switch.Auth, only: [authenticate_user: 2]
     end
   end
 
@@ -61,6 +62,7 @@ defmodule Switch.Web do
   def router do
     quote do
       use Phoenix.Router
+      import Switch.Auth, only: [authenticate_user: 2]
     end
   end
 

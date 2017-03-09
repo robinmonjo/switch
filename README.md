@@ -27,10 +27,16 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 - [x] validate name != redirect
 - [x] validate uniqueness of name
 - [x] invalidate cache when a domain get deleted
+- [x] authentication from scratch
+
+Mid project clean up
+- [ ] allow users to see all domains (even if they didn't created them)
+- [ ] prevent users to update or delete a domain they didn't created
+
 - [ ] manually invalidate cache
 - [ ] consult cache
 - [ ] manually recheck domain existence
-- [ ] authentication from scratch: http://nithinbekal.com/posts/phoenix-authentication/
+
 - last redirect_at
 - domains users pagination
 

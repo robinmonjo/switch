@@ -17,3 +17,6 @@ config :switch, Switch.Repo,
 
 config :switch, Switch,
   hostname: "www.example.com"
+
+config :comeonin, :bcrypt_log_rounds, 4
+config :comeonin, :pbkdf2_rounds, 1

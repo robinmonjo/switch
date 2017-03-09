@@ -1,4 +1,4 @@
-defmodule Switch.Repo.Migrations.UniqueIndexes do
+defmodule Switch.Repo.Migrations.DomainNameUniqueIndexes do
   use Ecto.Migration
 
   def change do

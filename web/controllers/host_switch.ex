@@ -24,7 +24,7 @@ defmodule Switch.HostSwitch do
         |> halt
       :no_match ->
         conn
-        |> send_resp(404, "#{host} has no match")
+        |> Phoenix.Controller.render(Switch.RootView, "not_found.html", %{})
         |> halt
     end
   end
@@ -32,10 +32,8 @@ defmodule Switch.HostSwitch do
   defp lookup_redirect(url) do
     case :ets.lookup(@ets_cache_table, url) do
       [{_, redirect} | _] ->
-        IO.puts "cache succeed"
         {:ok, redirect}
       _ ->
-        IO.puts "cache failed"
         lookup_redirect_in_db(url)
     end
   end

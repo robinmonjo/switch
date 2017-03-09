@@ -14,6 +14,16 @@
   <body>
     <div class="container">
       <header class="header">
+        <ol class="breadcrumb text-right">
+          <%= if @current_user do %>
+            <li><%= @current_user.email %></li>
+            <li><%= link "Log out", to: session_path(@conn, :delete, @current_user), method: "delete" %></li>
+          <% else %>
+            <li><%= link "Register", to: user_path(@conn, :new) %></li>
+            <li><%= link "Sign-in", to: session_path(@conn, :new) %></li>
+          <% end %>
+        </ol>
+
         <span class="logo"></span>
       </header>
 
