@@ -1,5 +1,5 @@
 defmodule Switch.DomainTest do
-  use Switch.ModelCase
+  use Switch.ModelCase, async: true
 
   alias Switch.Domain
 
@@ -41,16 +41,6 @@ defmodule Switch.DomainTest do
       changeset = Domain.changeset(%Domain{}, %{name: url, redirect: url})
       assert {:redirect, {"must be different than name", []}} in changeset.errors
       refute changeset.valid?
-    end
-
-    test "uniqueness of name" do
-      url = "http://domain.com"
-      cs = Domain.changeset(%Domain{}, %{name: url, redirect: "http://redirect.com"})
-      Repo.insert!(cs)
-
-      cs2 = Domain.changeset(%Domain{}, %{name: url, redirect: "http://redirect2.com"})
-      assert {:error, changeset} = Repo.insert(cs2)
-      assert [name: {"has already been taken", []}] == changeset.errors
     end
 
     test "URL with path" do

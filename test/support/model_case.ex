@@ -22,6 +22,7 @@ defmodule Switch.ModelCase do
       import Ecto.Changeset
       import Ecto.Query
       import Switch.ModelCase
+      import Switch.TestHelpers
     end
   end
 
