@@ -3,8 +3,10 @@ defmodule Switch.DomainTest do
 
   alias Switch.Domain
 
+  @valid_attrs %{name: "http://domain.com", redirect: "https://redirect.com"}
+
   test "changeset with valid attributes" do
-    changeset = Domain.changeset(%Domain{}, %{name: "http://domain.com", redirect: "https://redirect.com"})
+    changeset = Domain.changeset(%Domain{}, @valid_attrs)
     assert changeset.valid?
   end
 
