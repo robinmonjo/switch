@@ -26,3 +26,7 @@
 
 <%= link "Edit", to: domain_path(@conn, :edit, @domain) %>
 <%= link "Back", to: domain_path(@conn, :index) %>
+
+<%= content_tag :a, id: "check-domain", data: [id: @domain.id], href: "#" do %>
+  Check domain
+<% end %>

@@ -35,6 +35,8 @@
       </main>
 
     </div> <!-- /container -->
+    <script>window.jsViewName = "<%= js_view_name(@conn, @view_template) %>"</script>
+    <script>window.userToken = "<%= assigns[:user_token] %>"</script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
