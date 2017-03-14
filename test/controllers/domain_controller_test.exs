@@ -32,14 +32,14 @@ defmodule Switch.DomainControllerTest do
 
   describe "index" do
     @tag login_as: "me@me.com"
-    test "list all user's domains on index", %{conn: conn, user: user} do
+    test "list all domains on index", %{conn: conn, user: user} do
       user_domain = insert_domain(user, @valid_attrs)
       other_domain = insert_domain(insert_user(email: "other@other.com"), %{name: "https://testX.com", redirect: "https://testY.com"})
 
       conn = get conn, domain_path(conn, :index)
       assert html_response(conn, 200) =~ ~r/Listing domains/
       assert String.contains?(conn.resp_body, user_domain.name)
-      refute String.contains?(conn.resp_body, other_domain.name)
+      assert String.contains?(conn.resp_body, other_domain.name)
     end
   end
 
@@ -82,6 +82,14 @@ defmodule Switch.DomainControllerTest do
       assert add_domain_to_cache(domain) == true
       put conn, domain_path(conn, :update, domain), domain: %{redirect: "http://updated_redirect.com"}
       refute domain_in_cache?(domain)
+    end
+
+    @tag login_as: "me@me.com"
+    test "do not allow users to modify a domain that doesn't belong to them", %{conn: conn} do
+      domain = insert_domain(insert_user(), @valid_attrs)
+      assert_error_sent 404, fn ->
+        put conn, domain_path(conn, :update, domain), domain: domain
+      end
     end
   end
 

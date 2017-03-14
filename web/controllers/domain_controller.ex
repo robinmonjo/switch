@@ -3,8 +3,9 @@ defmodule Switch.DomainController do
 
   alias Switch.Domain
 
-  def index(conn, _params, user) do
-    domains = Repo.all(user_domains(user))
+  def index(conn, _params, _user) do
+    domains = Repo.all(Domain) |> Repo.preload(:user)
+
     render(conn, "index.html", domains: domains)
   end
 
@@ -33,8 +34,8 @@ defmodule Switch.DomainController do
     end
   end
 
-  def show(conn, %{"id" => id}, user) do
-    domain = Repo.get!(user_domains(user), id)
+  def show(conn, %{"id" => id}, _user) do
+    domain = Repo.get!(Domain, id)
     render(conn, "show.html", domain: domain)
   end
 

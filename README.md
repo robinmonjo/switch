@@ -19,6 +19,19 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * Source: https://github.com/phoenixframework/phoenix
 
 
+## TODOs
+
+- [x] users can see every domains but can't update or delete them
+- [ ] delete user (keep its domains)
+- [ ] super admin has full access and can add users
+- [ ] remove the registration form (only super admin can register people)
+- [ ] change password users
+- [ ] move cache to a new service and add info about hit number / last hit at / last hit IP
+- [ ] domain info service (check if it exists, whois, dig ...)
+- [ ] live cache consultation (using channels)
+- [ ] empty cache super admin
+- [ ] add domains via "chat bot" wiht an ELM client for the chat interface
+- [ ] migrate to phoenix 1.3
 
 ## TODO:
 

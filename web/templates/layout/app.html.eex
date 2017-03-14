@@ -13,19 +13,29 @@
 
   <body>
     <div class="container">
-      <header class="header">
-        <ol class="breadcrumb text-right">
-          <%= if @current_user do %>
-            <li><%= @current_user.email %></li>
-            <li><%= link "Log out", to: session_path(@conn, :delete, @current_user), method: "delete" %></li>
-          <% else %>
-            <li><%= link "Register", to: user_path(@conn, :new) %></li>
-            <li><%= link "Sign-in", to: session_path(@conn, :new) %></li>
-          <% end %>
-        </ol>
 
-        <span class="logo"></span>
-      </header>
+      <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <%= link "Switch", to: root_path(@conn, :index), class: "navbar-brand" %>
+          </div>
+          <ul class="nav navbar-nav">
+            <%= if @current_user do %>
+              <li><%= link "Domains", to: domain_path(@conn, :index) %></li>
+              <li><%= link "Users", to: user_path(@conn, :index) %></li>
+            <% end %>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <%= if @current_user do %>
+              <li><p class="navbar-text"><%= @current_user.email %></p></li>
+              <li><%= link "Log out", to: session_path(@conn, :delete, @current_user), method: "delete", class: "navbar-text" %></li>
+            <% else %>
+              <li><%= link "Register", to: user_path(@conn, :new) %></li>
+              <li><%= link "Sign-in", to: session_path(@conn, :new) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>

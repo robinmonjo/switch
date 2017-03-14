@@ -6,37 +6,36 @@ export default class DomainViewShow extends MainView {
   mount() {
     super.mount();
 
-    const checkDomainBtn = $("#check-domain")
+    const checkDomainBtn = $("#check-domain");
     if (!checkDomainBtn.length) {
-      return
+      return;
     }
 
-    socket.connect()
+    socket.connect();
 
-    let channel = socket.channel("domains:" + "11111111111111111111")
+    const domainId = checkDomainBtn.data("id");
+
+    let channel = socket.channel(`domains:${domainId}`)
     channel.join()
       .receive("ok", resp => {
         console.log("joined the domain channel", resp)
       })
       .receive("error", reason => {
         console.log("joined failed", reason)
-      })
+      });
 
-    channel.on("ping", ({count}) => {
-      console.log("PING", count)
-    })
+    channel.on("check_domain", resp => {
+      console.log(resp)
+    });
 
     checkDomainBtn.click(() => {
-      const domainId = checkDomainBtn.data("id")
       channel.push("check_domain", domainId)
         .receive("error", e => {
           console.log("error", e)
         })
     });
 
-    channel.on("check_domain", resp => {
-      console.log(resp)
-    })
+
   }
 
 
