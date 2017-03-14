@@ -1,9 +1,7 @@
 defmodule Switch.UserController do
   use Switch.Web, :controller
-  plug :authenticate_user when action in [:index, :show]
 
   alias Switch.User
-
 
   def index(conn, _params) do
     users = Repo.all(User)
@@ -20,12 +18,20 @@ defmodule Switch.UserController do
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn
-        |> Switch.Auth.login(user)
         |> put_flash(:info, "#{user.email} created!")
         |> redirect(to: user_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    domain = Repo.get!(User, id)
+
+    Repo.delete!(domain)
+    conn
+    |> put_flash(:info, "User deleted successfully.")
+    |> redirect(to: user_path(conn, :index))
   end
 
 end

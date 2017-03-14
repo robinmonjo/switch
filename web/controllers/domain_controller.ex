@@ -75,7 +75,7 @@ defmodule Switch.DomainController do
   end
 
   defp user_domains(user) do
-    assoc(user, :domains)
+    if user.admin, do: Domain, else: assoc(user, :domains)
   end
 
   def async_validate_name_and_redirect(domain) do

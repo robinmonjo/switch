@@ -19,13 +19,17 @@ defmodule Switch.Router do
 
     get "/", RootController, :index
 
-    resources "/users", UserController, only: [:index, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
   scope "/domains", Switch do
     pipe_through [:browser, :authenticate_user]
     resources "/", DomainController
+  end
+
+  scope "/users", Switch do
+    pipe_through [:browser, :authenticate_user, :authenticate_admin]
+    resources "/", UserController, only: [:index, :new, :create, :delete]
   end
 
   # Other scopes may use custom stacks.

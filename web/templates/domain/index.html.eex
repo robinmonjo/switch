@@ -17,7 +17,7 @@
       <td><%= if (domain.user), do: domain.user.email, else: "-" %></td>
       <td class="text-right">
         <%= link "Show", to: domain_path(@conn, :show, domain), class: "btn btn-default btn-xs" %>
-        <%= if @current_user.id == domain.user_id do %>
+        <%= if @current_user.id == domain.user_id || @current_user.admin do %>
           <%= link "Edit", to: domain_path(@conn, :edit, domain), class: "btn btn-default btn-xs" %>
           <%= link "Delete", to: domain_path(@conn, :delete, domain), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
         <% end %>

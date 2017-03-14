@@ -59,6 +59,17 @@ defmodule Switch.Auth do
     end
   end
 
+  def authenticate_admin(conn, _opts) do
+    if conn.assigns.current_user.admin == true do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You are not admin.")
+      |> redirect(to: Helpers.root_path(conn, :index))
+      |> halt()
+    end
+  end
+
   defp put_current_user(conn, user) do
     token = Phoenix.Token.sign(conn, "user socket", user.id)
     conn

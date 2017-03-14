@@ -5,6 +5,7 @@ defmodule Switch.User do
     field :email, :string
     field :password, :string, virtual: true
     field :password_hash, :string
+    field :admin, :boolean, default: false
 
     has_many :domains, Switch.Domain
 
@@ -13,7 +14,7 @@ defmodule Switch.User do
 
   def changeset(user, params \\ %{}) do
     user
-    |> cast(params, [:email])
+    |> cast(params, [:email, :admin])
     |> unique_constraint(:email)
     |> validate_required([:email])
     |> validate_format(:email, ~r/@/)

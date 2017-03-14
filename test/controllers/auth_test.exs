@@ -23,6 +23,22 @@ defmodule Switch.AuthTest do
     refute conn.halted
   end
 
+  test "authenticate_admin halts when current_user not admin", %{conn: conn} do
+    conn =
+      conn
+      |> assign(:current_user, %Switch.User{})
+      |> Auth.authenticate_admin([])
+    assert conn.halted
+  end
+
+  test "authenticate_admin continues when current_user is admin", %{conn: conn} do
+    conn =
+      conn
+      |> assign(:current_user, %Switch.User{admin: true})
+      |> Auth.authenticate_admin([])
+    refute conn.halted
+  end
+
   test "login puts the user in the session", %{conn: conn} do
     login_conn =
       conn

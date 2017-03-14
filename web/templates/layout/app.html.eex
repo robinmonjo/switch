@@ -22,7 +22,9 @@
           <ul class="nav navbar-nav">
             <%= if @current_user do %>
               <li><%= link "Domains", to: domain_path(@conn, :index) %></li>
-              <li><%= link "Users", to: user_path(@conn, :index) %></li>
+              <%= if @current_user.admin do %>
+                <li><%= link "Users", to: user_path(@conn, :index) %></li>
+              <% end %>
             <% end %>
           </ul>
           <ul class="nav navbar-nav navbar-right">

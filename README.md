@@ -22,9 +22,10 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 ## TODOs
 
 - [x] users can see every domains but can't update or delete them
-- [ ] delete user (keep its domains)
-- [ ] super admin has full access and can add users
-- [ ] remove the registration form (only super admin can register people)
+- [x] super admin has full access and can add users
+- [x] delete user (keep its domains)
+- [x] remove the registration form (only super admin can register people)
+- [ ] test admin (domain controller / domain index)
 - [ ] change password users
 - [ ] move cache to a new service and add info about hit number / last hit at / last hit IP
 - [ ] domain info service (check if it exists, whois, dig ...)
