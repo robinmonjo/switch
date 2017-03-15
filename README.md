@@ -25,9 +25,9 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 - [x] super admin has full access and can add users
 - [x] delete user (keep its domains)
 - [x] remove the registration form (only super admin can register people)
-- [ ] test admin (domain controller / domain index)
-- [ ] change password users
-- [ ] move cache to a new service and add info about hit number / last hit at / last hit IP
+- [x] test admin (domain controller / domain index)
+- [ ] change password users (me controller with show / edit / update / delete)
+- [ ] move cache to a new service and add info about hit number / last hit at / last hit IP (Gen server with ETS table that runs in phoenix supervision tree)
 - [ ] domain info service (check if it exists, whois, dig ...)
 - [ ] live cache consultation (using channels)
 - [ ] empty cache super admin

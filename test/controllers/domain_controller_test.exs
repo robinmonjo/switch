@@ -6,8 +6,9 @@ defmodule Switch.DomainControllerTest do
   @invalid_attrs %{name: "domain.com", redirect: "invalid.com"}
 
   setup %{conn: conn} = config do
+    admin = config[:admin] || false
     if email = config[:login_as] do
-      user = insert_user(email: email)
+      user = insert_user(email: email, admin: admin)
       conn = assign(build_conn(), :current_user, user)
       {:ok, conn: conn, user: user}
     else
@@ -91,6 +92,16 @@ defmodule Switch.DomainControllerTest do
         put conn, domain_path(conn, :update, domain), domain: domain
       end
     end
+
+    @tag login_as: "admin@admin.com"
+    @tag :admin
+    test "admin users can update a domain that they don't own", %{conn: conn} do
+      domain = insert_domain(insert_user(), @valid_attrs)
+      updated_redirect = "http://updated_name.com"
+      conn = put conn, domain_path(conn, :update, domain), domain: %{redirect: updated_redirect}
+      assert redirected_to(conn) == domain_path(conn, :show, domain)
+      assert Repo.get(Domain, domain.id).redirect == updated_redirect
+    end
   end
 
   describe "delete" do
@@ -116,6 +127,15 @@ defmodule Switch.DomainControllerTest do
       assert add_domain_to_cache(domain) == true
       delete conn, domain_path(conn, :delete, domain)
       refute domain_in_cache?(domain)
+    end
+
+    @tag login_as: "admin@admin.com"
+    @tag :admin
+    test "admin user can delete other users domains", %{conn: conn} do
+      other_domain = insert_domain(insert_user(email: "other@other.com"), @valid_attrs)
+      conn = delete conn, domain_path(conn, :delete, other_domain)
+      assert redirected_to(conn) == domain_path(conn, :index)
+      refute Repo.get(Domain, other_domain.id)
     end
   end
 
