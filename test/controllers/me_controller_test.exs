@@ -40,7 +40,7 @@ defmodule Switch.MeControllerTest do
     @tag login_as: "me@me.com"
     test "render edit", %{conn: conn, user: user} do
       conn = get conn, me_path(conn, :edit, user)
-      assert html_response(conn, 200) =~ "User edit"
+      assert html_response(conn, 200) =~ "Edit profile"
     end
   end
 
@@ -49,7 +49,8 @@ defmodule Switch.MeControllerTest do
     @tag password: "some secret"
     test "render edit with errors", %{conn: conn, user: user} do
       conn = put conn, me_path(conn, :update, user), user: %{old_password: "wrong", password: "new_password"}
-      assert html_response(conn, 200) =~ "Edit domain"
+      assert html_response(conn, 200) =~ "Edit profile"
+      assert String.contains?(conn.resp_body, "something went wrong")
     end
   end
 

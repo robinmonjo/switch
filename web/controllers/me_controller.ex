@@ -10,19 +10,18 @@ defmodule Switch.MeController do
   end
 
   def edit(conn, _params) do
-    user = conn.assigns.current_user
+    %{current_user: user} = conn.assigns
     changeset = User.changeset(user)
     render(conn, "edit.html", changeset: changeset)
   end
 
   def update(conn, %{"user" => user_params}) do
-    IO.puts "--------------------------------------------------------------------"
-    user = conn.assigns.current_user
+    %{current_user: user} = conn.assigns
     changeset = User.update_password_changeset(user, user_params)
     case Repo.update(changeset) do
       {:ok, user} ->
         conn
-        |> put_flash(:error, "Password updated")
+        |> put_flash(:info, "Password updated")
         |> redirect(to: me_path(conn, :show, user))
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset)
