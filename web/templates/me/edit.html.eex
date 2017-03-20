@@ -1,0 +1,23 @@
+<h2>User edit</h2>
+<% IO.inspect(@current_user) %>
+<%= form_for @changeset, me_path(@conn, :update, @current_user), fn f -> %>
+ <%= if @changeset.action do %>
+   <div class="alert alert-danger">
+     <p>Oops, something went wrong! Please check the errors below.</p>
+   </div>
+ <% end %>
+
+ <div class="form-group">
+   <%= password_input f, :old_password, placeholder: "Current password", class: "form-control" %>
+   <%= error_tag f, :old_password %>
+ </div>
+
+ <div class="form-group">
+   <%= password_input f, :password, placeholder: "New password", class: "form-control" %>
+   <%= error_tag f, :password %>
+ </div>
+
+ <div class="form-group">
+   <%= submit "Submit", class: "btn btn-primary" %>
+ </div>
+<% end %>

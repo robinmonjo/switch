@@ -1,0 +1,5 @@
+<h2>User show</h2>
+
+<%= @current_user.email %>
+
+<%= link "Edit", to: me_path(@conn, :edit, @current_user) %>

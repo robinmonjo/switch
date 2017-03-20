@@ -32,6 +32,11 @@ defmodule Switch.Router do
     resources "/", UserController, only: [:index, :new, :create, :delete]
   end
 
+  scope "/me", Switch do
+    pipe_through [:browser, :authenticate_user]
+    resources "/", MeController, only: [:show, :edit, :update]
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", Switch do
   #   pipe_through :api

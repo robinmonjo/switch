@@ -35,6 +35,29 @@ defmodule Switch.UserTest do
     assert Comeonin.Bcrypt.checkpw(pass, pass_hash)
   end
 
+  test "update_password_changeset with invalid old password has error" do
+    old_pwd = "some strong password"
+    user = %User{
+      email: "me@me.com",
+      password_hash: Comeonin.Bcrypt.hashpwsalt(old_pwd)
+    }
+
+    changeset = User.update_password_changeset(user, %{old_password: "123456", password: "new password"})
+    assert {:old_password, {"doesn't match", []}} in changeset.errors
+  end
+
+  test "update_password_changeset with valid old password" do
+    old_pwd = "some strong password"
+    user = %User{
+      email: "me@me.com",
+      password_hash: Comeonin.Bcrypt.hashpwsalt(old_pwd)
+    }
+
+    new_pwd = "my new password"
+    changeset = User.update_password_changeset(user, %{old_password: old_pwd, password: new_pwd})
+    assert changeset.valid?
+  end
+
 
 
 end

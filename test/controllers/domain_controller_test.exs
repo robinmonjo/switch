@@ -1,20 +1,9 @@
 defmodule Switch.DomainControllerTest do
-  use Switch.ConnCase
+  use Switch.AuthConnCase
 
   alias Switch.Domain
   @valid_attrs %{name: "http://domain.com", redirect: "https://redirect.com"}
   @invalid_attrs %{name: "domain.com", redirect: "invalid.com"}
-
-  setup %{conn: conn} = config do
-    admin = config[:admin] || false
-    if email = config[:login_as] do
-      user = insert_user(email: email, admin: admin)
-      conn = assign(build_conn(), :current_user, user)
-      {:ok, conn: conn, user: user}
-    else
-      :ok
-    end
-  end
 
   test "requires user authentication on all actions", %{conn: conn} do
     Enum.each([
@@ -203,51 +192,4 @@ defmodule Switch.DomainControllerTest do
   #TODO test cache unsetting in delete / update
   #TODO test missing actions: show / edit / update / delete
 
-
-
-
-
-  #
-  # @tag login_as: "me@me.com"
-  # test "deletes chosen resource", %{conn: conn} do
-  #   domain = Repo.insert! %Domain{}
-  #   conn = delete conn, domain_path(conn, :delete, domain)
-  #   assert redirected_to(conn) == domain_path(conn, :index)
-  #   refute Repo.get(Domain, domain.id)
-  # end
-
-
-
-  # describe "insert" do
-  #   test "should insert a valid domain" do
-  #     assert {:ok, domain} = DomainService.insert(%{name: "http://domain.com", redirect: "http://redirect.com"})
-  #     assert domain.name == "http://domain.com"
-  #     assert domain.redirect == "http://redirect.com"
-  #   end
-  # end
-  #
-  # describe "delete" do
-  #   test "delete associated cache" do
-  #     assert {:ok, domain} = DomainService.insert(%{name: "http://domain2.com", redirect: "http://redirect.com"})
-  #     table = Application.fetch_env!(:switch, Switch)[:ets_cache_table]
-  #     assert :ets.insert(table, {domain.name, domain.redirect}) == true
-  #     DomainService.delete(domain)
-  #     assert :ets.lookup(table, domain.name) == []
-  #   end
-  # end
-  #
-  # test "validate domains exists" do
-  #   cs = Domain.changeset(%Domain{}, %{name: "http://www.google.com", redirect: "http://unknown_unknown.unknow"})
-  #   domain = Repo.insert!(cs)
-  #
-  #   assert domain.name_checked == false
-  #   assert domain.redirect_checked == false
-  #
-  #   DomainService.async_validate_name_and_redirect(domain) |> Task.await
-  #
-  #   domain = Repo.get!(Domain, domain.id)
-  #
-  #   assert domain.name_checked == true
-  #   assert domain.redirect_checked == false
-  # end
 end

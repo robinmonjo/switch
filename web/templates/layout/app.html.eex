@@ -29,7 +29,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <%= if @current_user do %>
-              <li><p class="navbar-text"><%= @current_user.email %></p></li>
+              <li><%= link @current_user.email, to: me_path(@conn, :show, @current_user) %></li>
               <li><%= link "Log out", to: session_path(@conn, :delete, @current_user), method: "delete", class: "navbar-text" %></li>
             <% else %>
               <li><%= link "Register", to: user_path(@conn, :new) %></li>
