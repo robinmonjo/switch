@@ -2,6 +2,7 @@ defmodule Switch.DomainController do
   use Switch.Web, :controller
 
   alias Switch.Domain
+  alias Switch.DomainsCache, as: Cache
 
   def index(conn, _params, _user) do
     domains = Repo.all(Domain) |> Repo.preload(:user)
@@ -51,7 +52,7 @@ defmodule Switch.DomainController do
     case Repo.update(changeset) do
       {:ok, domain} ->
         async_validate_name_and_redirect(domain)
-        delete_cache_entry(domain)
+        Cache.delete(domain.name)
         conn
         |> put_flash(:info, "Domain updated successfully.")
         |> redirect(to: domain_path(conn, :show, domain))
@@ -62,7 +63,7 @@ defmodule Switch.DomainController do
 
   def delete(conn, %{"id" => id}, user) do
     domain = Repo.get!(user_domains(user), id)
-    delete_cache_entry(domain)
+    Cache.delete(domain.name)
 
     Repo.delete!(domain)
     conn
@@ -85,10 +86,5 @@ defmodule Switch.DomainController do
       changeset = Domain.changeset(domain, %{name_checked: name_ok, redirect_checked: redirect_ok})
       Repo.update(changeset) # ignoring potential errors
     end
-  end
-
-  defp delete_cache_entry(domain) do
-    table = Application.fetch_env!(:switch, Switch)[:ets_cache_table]
-    :ets.delete(table, domain.name)
   end
 end

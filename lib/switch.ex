@@ -6,9 +6,6 @@ defmodule Switch do
   def start(_type, _args) do
     import Supervisor.Spec
 
-    # create ETS cache
-    :ets.new(Application.fetch_env!(:switch, Switch)[:ets_cache_table], [:named_table, :set, :public])
-
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
@@ -16,7 +13,7 @@ defmodule Switch do
       # Start the endpoint when the application starts
       supervisor(Switch.Endpoint, []),
       # Start your own worker by calling: Switch.Worker.start_link(arg1, arg2, arg3)
-      # worker(Switch.Worker, [arg1, arg2, arg3]),
+      worker(Switch.DomainsCache, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

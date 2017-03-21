@@ -67,14 +67,6 @@ defmodule Switch.DomainControllerTest do
     end
 
     @tag login_as: "me@me.com"
-    test "should remove associated domain cache", %{conn: conn, user: user} do
-      domain = insert_domain(user, @valid_attrs)
-      assert add_domain_to_cache(domain) == true
-      put conn, domain_path(conn, :update, domain), domain: %{redirect: "http://updated_redirect.com"}
-      refute domain_in_cache?(domain)
-    end
-
-    @tag login_as: "me@me.com"
     test "do not allow users to modify a domain that doesn't belong to them", %{conn: conn} do
       domain = insert_domain(insert_user(), @valid_attrs)
       assert_error_sent 404, fn ->
@@ -108,14 +100,6 @@ defmodule Switch.DomainControllerTest do
       assert_error_sent 404, fn ->
         delete conn, domain_path(conn, :delete, other_domain)
       end
-    end
-
-    @tag login_as: "me@me.com"
-    test "should remove associated domain cache", %{conn: conn, user: user} do
-      domain = insert_domain(user, @valid_attrs)
-      assert add_domain_to_cache(domain) == true
-      delete conn, domain_path(conn, :delete, domain)
-      refute domain_in_cache?(domain)
     end
 
     @tag login_as: "admin@admin.com"
@@ -178,18 +162,5 @@ defmodule Switch.DomainControllerTest do
       assert domain.redirect_checked == false
     end
   end
-
-  defp add_domain_to_cache(%{name: url, redirect: redirect}) do
-    table = Application.fetch_env!(:switch, Switch)[:ets_cache_table]
-    :ets.insert(table, {url, redirect})
-  end
-
-  defp domain_in_cache?(%{name: url}) do
-    table = Application.fetch_env!(:switch, Switch)[:ets_cache_table]
-    length(:ets.lookup(table, url)) == 1
-  end
-
-  #TODO test cache unsetting in delete / update
-  #TODO test missing actions: show / edit / update / delete
 
 end

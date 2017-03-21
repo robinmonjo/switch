@@ -2,10 +2,11 @@ defmodule Switch.HostSwitch do
   import Plug.Conn
 
   alias Switch.Repo
+  alias Switch.DomainsCache, as: Cache
+
   import Ecto.Query
 
   @hostname Application.fetch_env!(:switch, Switch)[:hostname]
-  @ets_cache_table Application.fetch_env!(:switch, Switch)[:ets_cache_table]
 
   # the plug that performs the domain switch
   def init(opts), do: opts
@@ -30,11 +31,11 @@ defmodule Switch.HostSwitch do
   end
 
   defp lookup_redirect(url) do
-    case :ets.lookup(@ets_cache_table, url) do
-      [{_, redirect} | _] ->
-        {:ok, redirect}
-      _ ->
+    case Cache.lookup(url) do
+      :not_found ->
         lookup_redirect_in_db(url)
+      redirect_url ->
+        {:ok, redirect_url}
     end
   end
 
@@ -45,9 +46,10 @@ defmodule Switch.HostSwitch do
 
     case Repo.all(query) do
       [redirect | _] ->
-        :ets.insert(@ets_cache_table, {url, redirect})
+        Cache.add(url, redirect)
         {:ok, redirect}
-      _ -> :no_match
+      _ ->
+        :no_match
     end
   end
 

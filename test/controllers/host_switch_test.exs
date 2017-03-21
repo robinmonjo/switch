@@ -2,8 +2,7 @@ defmodule Switch.HostSwitchTest do
   use Switch.ConnCase
 
   alias Switch.Domain
-
-  @ets_cache_table Application.fetch_env!(:switch, Switch)[:ets_cache_table]
+  alias Switch.DomainsCache, as: Cache
 
   test "redirect to the corresponding host redirect", %{conn: conn} do
     redirect = "https://redirect.com"
@@ -16,10 +15,6 @@ defmodule Switch.HostSwitchTest do
 
     conn = get conn, "/"
     assert redirected_to(conn) == "#{redirect}/"
-
-    # a cache entry must have been added
-    assert [{_, ^redirect} | _] = :ets.lookup(@ets_cache_table, "http://abc.com")
-    assert :ets.delete(@ets_cache_table, "http://abc.com") == true
   end
 
   test "no matching redirect", %{conn: conn} do
@@ -43,8 +38,7 @@ defmodule Switch.HostSwitchTest do
   end
 
   test "lookup in cache before looking up in the database", %{conn: conn} do
-    assert :ets.insert(@ets_cache_table, {"http://abcd.com", "http://redirect.com"}) == true
-
+    assert Cache.add_sync("http://abcd.com", "http://redirect.com") == true
     conn = %{conn | host: "abcd.com"}
     conn = get conn, "/"
     assert redirected_to(conn) == "http://redirect.com/"

@@ -1,8 +1,6 @@
 defmodule Switch.MeControllerTest do
   use Switch.AuthConnCase
 
-  alias Switch.User
-
   test "requires user to be authentified", %{conn: conn} do
     Enum.each([
       get(conn, me_path(conn, :show, "some_id")),
@@ -17,7 +15,6 @@ defmodule Switch.MeControllerTest do
   @tag login_as: "me@me.com"
   test "only allow users to access their resources", %{conn: conn, user: user} do
     other_user = insert_user()
-    %{id: id} = other_user
     Enum.each([
       get(conn, me_path(conn, :show, other_user)),
       get(conn, me_path(conn, :edit, other_user)),
