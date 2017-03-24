@@ -27,6 +27,7 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 - [x] remove the registration form (only super admin can register people)
 - [x] test admin (domain controller / domain index)
 - [x] change password users (me controller with show / edit / update)
+- [ ] migrate to phoenix 1.3 (watch this before: https://www.youtube.com/watch?v=tMO28ar0lW8)
 - [ ] move cache to a new service and add info about hit number / last hit at / last hit IP (Gen server with ETS table that runs in phoenix supervision tree)
 - [ ] domain info service (check if it exists, whois, dig ...)
 - [ ] live cache consultation (using channels)
