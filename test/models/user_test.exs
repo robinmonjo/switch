@@ -1,5 +1,5 @@
 defmodule Switch.UserTest do
-  use Switch.ModelCase, async: true
+  use Switch.DataCase, async: true
 
   alias Switch.User
 
@@ -18,7 +18,7 @@ defmodule Switch.UserTest do
 
   test "changeset doesn't allow invalid email" do
     attrs = %{@valid_attrs | email: "invalid"}
-    assert {:email, "has invalid format"} in errors_on(%User{}, attrs)
+    assert %{email: ["has invalid format"]} = errors_on(User.changeset(%User{}, attrs))
   end
 
   test "register_changeset password must be at least 6 characters" do

@@ -1,4 +1,4 @@
-defmodule Switch.ChannelCase do
+defmodule Switch.Web.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -27,12 +27,12 @@ defmodule Switch.ChannelCase do
 
 
       # The default endpoint for testing
-      @endpoint Switch.Endpoint
+      @endpoint Switch.Web.Endpoint
     end
   end
 
   setup tags do
-    
+
 
     unless tags[:async] do
       Mongo.Ecto.truncate(Switch.Repo, [])

@@ -1,5 +1,5 @@
 defmodule Switch.UserRepoTest do
-  use Switch.ModelCase
+  use Switch.DataCase
 
   alias Switch.User
 

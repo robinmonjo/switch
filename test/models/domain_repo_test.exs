@@ -1,5 +1,5 @@
 defmodule Switch.DomainRepoTest do
-  use Switch.ModelCase
+  use Switch.DataCase
 
   alias Switch.Domain
 

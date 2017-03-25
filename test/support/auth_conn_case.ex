@@ -1,4 +1,4 @@
-defmodule Switch.AuthConnCase do
+defmodule Switch.Web.AuthConnCase do
   @moduledoc """
   Similar to conn_case but take into account the @login_as and @admin tags to setup the connection with a user
   """
@@ -15,11 +15,11 @@ defmodule Switch.AuthConnCase do
       import Ecto.Changeset
       import Ecto.Query
 
-      import Switch.Router.Helpers
+      import Switch.Web.Router.Helpers
       import Switch.TestHelpers
 
       # The default endpoint for testing
-      @endpoint Switch.Endpoint
+      @endpoint Switch.Web.Endpoint
     end
   end
 
