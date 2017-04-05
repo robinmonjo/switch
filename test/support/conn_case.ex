@@ -1,4 +1,4 @@
-defmodule Switch.ConnCase do
+defmodule Switch.Web.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -25,11 +25,11 @@ defmodule Switch.ConnCase do
       import Ecto.Changeset
       import Ecto.Query
 
-      import Switch.Router.Helpers
-      import Switch.TestHelpers
+      import Switch.Web.Router.Helpers
+      import Switch.Fixtures
 
       # The default endpoint for testing
-      @endpoint Switch.Endpoint
+      @endpoint Switch.Web.Endpoint
     end
   end
 

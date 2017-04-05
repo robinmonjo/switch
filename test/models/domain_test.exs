@@ -1,5 +1,5 @@
 defmodule Switch.DomainTest do
-  use Switch.ModelCase, async: true
+  use Switch.DataCase, async: true
 
   alias Switch.Domain
 

@@ -10,10 +10,10 @@ config :switch,
   ecto_repos: [Switch.Repo]
 
 # Configures the endpoint
-config :switch, Switch.Endpoint,
+config :switch, Switch.Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "wDxzc+ONojGTJTTBGzi8B4ZYocaTeimYaezVRKnwV4m75nOOQHJiFM9fAsYRYqIR",
-  render_errors: [view: Switch.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: Switch.Web.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Switch.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
