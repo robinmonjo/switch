@@ -28,13 +28,12 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 - [x] test admin (domain controller / domain index)
 - [x] change password users (me controller with show / edit / update)
 - [x] migrate to phoenix 1.3 (watch this before: https://www.youtube.com/watch?v=tMO28ar0lW8)
-- [ ] new context and stuff + with in controller
+- [x] new context and stuff + with in controller (not using context for now)
 - [ ] move cache to a new service and add info about hit number / last hit at / last hit IP (Gen server with ETS table that runs in phoenix supervision tree)
 - [ ] domain info service (check if it exists, whois, dig ...)
 - [ ] live cache consultation (using channels)
 - [ ] empty cache super admin
 - [ ] add domains via "chat bot" wiht an ELM client for the chat interface
-- [ ] migrate to phoenix 1.3
 
 ## TODO:
 

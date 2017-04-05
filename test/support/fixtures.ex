@@ -1,4 +1,4 @@
-defmodule Switch.TestHelpers do
+defmodule Switch.Fixtures do
   alias Switch.Repo
 
   def insert_user(attrs \\ %{}) do

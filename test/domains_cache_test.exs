@@ -2,7 +2,6 @@ defmodule Switch.DomainsCacheTest do
   use ExUnit.Case, async: true
   alias Switch.DomainsCache, as: Cache
 
-
   test "insert, lookup and delete" do
     domain_url = "http://domain.com"
     redirect_url = "http://redirect.com"

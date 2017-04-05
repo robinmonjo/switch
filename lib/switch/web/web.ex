@@ -16,19 +16,6 @@ defmodule Switch.Web do
   below.
   """
 
-  def model do
-    quote do
-      use Ecto.Schema
-
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
-
-      @primary_key {:id, :binary_id, autogenerate: true}
-      @foreign_key_type :binary_id
-    end
-  end
-
   def controller do
     quote do
       use Phoenix.Controller, namespace: Switch.Web

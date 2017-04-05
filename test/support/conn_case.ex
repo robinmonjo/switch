@@ -26,7 +26,7 @@ defmodule Switch.Web.ConnCase do
       import Ecto.Query
 
       import Switch.Web.Router.Helpers
-      import Switch.TestHelpers
+      import Switch.Fixtures
 
       # The default endpoint for testing
       @endpoint Switch.Web.Endpoint

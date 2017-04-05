@@ -22,7 +22,7 @@ defmodule Switch.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Switch.DataCase
-      import Switch.TestHelpers
+      import Switch.Fixtures
     end
   end
 

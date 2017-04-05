@@ -16,7 +16,7 @@ defmodule Switch.Web.AuthConnCase do
       import Ecto.Query
 
       import Switch.Web.Router.Helpers
-      import Switch.TestHelpers
+      import Switch.Fixtures
 
       # The default endpoint for testing
       @endpoint Switch.Web.Endpoint
@@ -32,7 +32,7 @@ defmodule Switch.Web.AuthConnCase do
 
     admin = tags[:admin] || false
     if email = tags[:login_as] do
-      user = Switch.TestHelpers.insert_user(email: email, admin: admin, password: tags[:password] || "secret")
+      user = Switch.Fixtures.insert_user(email: email, admin: admin, password: tags[:password] || "secret")
       conn = Plug.Conn.assign(conn, :current_user, user)
       {:ok, conn: conn, user: user}
     else
