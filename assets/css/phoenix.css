@@ -34,6 +34,10 @@ form.link, form.button {
   background-image: url("/images/phoenix.png");
   background-size: 519px 71px;
 }
+img.center {
+  display: block;
+  margin: 0 auto;
+}
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
