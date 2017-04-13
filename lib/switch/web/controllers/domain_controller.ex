@@ -26,7 +26,7 @@ defmodule Switch.Web.DomainController do
 
     case Repo.insert(changeset) do
       {:ok, domain} ->
-        async_validate_name_and_redirect(domain)
+        Domain.async_validate_name_and_redirect(domain)
         conn
         |> put_flash(:info, "Domain created successfully.")
         |> redirect(to: domain_path(conn, :index))
@@ -51,7 +51,7 @@ defmodule Switch.Web.DomainController do
     changeset = Domain.changeset(domain, domain_params)
     case Repo.update(changeset) do
       {:ok, domain} ->
-        async_validate_name_and_redirect(domain)
+        Domain.async_validate_name_and_redirect(domain)
         Cache.delete(domain.name)
         conn
         |> put_flash(:info, "Domain updated successfully.")
@@ -79,12 +79,4 @@ defmodule Switch.Web.DomainController do
     if user.admin, do: Domain, else: assoc(user, :domains)
   end
 
-  def async_validate_name_and_redirect(domain) do
-    Task.async fn ->
-      name_ok = Domain.domain_exists?(domain.name)
-      redirect_ok = Domain.domain_exists?(domain.redirect)
-      changeset = Domain.changeset(domain, %{name_checked: name_ok, redirect_checked: redirect_ok})
-      Repo.update(changeset) # ignoring potential errors
-    end
-  end
 end
