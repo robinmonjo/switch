@@ -46,7 +46,7 @@ defmodule Switch.Web.DomainController do
     changeset = Domain.changeset(domain, domain_params)
     case Repo.update(changeset) do
       {:ok, domain} ->
-        Domain.async_validate_name_and_redirect(domain)
+        Domains.async_validate_name_and_redirect(domain)
         Cache.delete(domain.name)
         conn
         |> put_flash(:info, "Domain updated successfully.")

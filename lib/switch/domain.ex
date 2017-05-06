@@ -66,21 +66,4 @@ defmodule Switch.Domain do
     end
   end
 
-  defp domain_exists?(url) do
-    host = URI.parse(url).host
-    case host |> to_char_list |> :inet.gethostbyname do
-      {:error, :nxdomain} -> false
-      _ -> true
-    end
-  end
-
-  def async_validate_name_and_redirect(domain) do
-    Task.async fn ->
-      name_ok = domain_exists?(domain.name)
-      redirect_ok = domain_exists?(domain.redirect)
-      changeset(domain, %{name_checked: name_ok, redirect_checked: redirect_ok})
-      |> Switch.Repo.update
-    end
-  end
-
 end
