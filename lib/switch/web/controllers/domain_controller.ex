@@ -2,10 +2,11 @@ defmodule Switch.Web.DomainController do
   use Switch.Web, :controller
 
   alias Switch.Domain
+  alias Switch.Domains
   alias Switch.DomainsCache, as: Cache
 
   def index(conn, _params, _user) do
-    domains = Repo.all(Domain) |> Repo.preload(:user)
+    domains = Domains.list_domains()
 
     render(conn, "index.html", domains: domains)
   end
