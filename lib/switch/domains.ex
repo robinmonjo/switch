@@ -68,6 +68,4 @@ defmodule Switch.Domains do
     end
   end
 
-
-
 end
