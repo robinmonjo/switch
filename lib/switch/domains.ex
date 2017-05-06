@@ -9,6 +9,16 @@ defmodule Switch.Domains do
     domains = Repo.all(Domain) |> Repo.preload(:user)
   end
 
+  def get_domain!(%User{} = user, id) do
+    Repo.get!(user_domains(user), id)
+  end
+
+  def get_domain!(id), do: Repo.get!(Domain, id)
+
+  defp user_domains(user) do
+    if user.admin, do: Domain, else: assoc(user, :domains)
+  end
+
   def create_domain(%User{} = user, attrs \\ {}) do
     changeset =
       user
@@ -34,6 +44,11 @@ defmodule Switch.Domains do
       {:error, changeset} ->
         {:error, changeset}
     end
+  end
+
+  def delete_domain(%Domain{} = domain) do
+    Cache.delete(domain.name)
+    Repo.delete(domain)
   end
 
   defp domain_exists?(url) do

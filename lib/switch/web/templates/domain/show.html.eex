@@ -24,7 +24,10 @@
 
 </ul>
 
-<%= link "Edit", to: domain_path(@conn, :edit, @domain) %>
+<%= if @current_user.id == @domain.user_id || @current_user.admin do %>
+  <%= link "Edit", to: domain_path(@conn, :edit, @domain) %>
+<% end %>
+
 <%= link "Back", to: domain_path(@conn, :index) %>
 
 <%= content_tag :a, id: "check-domain", data: [id: @domain.id], href: "#" do %>

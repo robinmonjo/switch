@@ -3,7 +3,6 @@ defmodule Switch.Web.DomainController do
 
   alias Switch.Domain
   alias Switch.Domains
-  alias Switch.DomainsCache, as: Cache
 
   def index(conn, _params, _user) do
     domains = Domains.list_domains()
@@ -20,7 +19,7 @@ defmodule Switch.Web.DomainController do
 
   def create(conn, %{"domain" => domain_params}, user) do
     case Domains.create_domain(user, domain_params) do
-      {:ok, domain} ->
+      {:ok, _domain} ->
         conn
         |> put_flash(:info, "Domain created successfully.")
         |> redirect(to: domain_path(conn, :index))
@@ -30,18 +29,18 @@ defmodule Switch.Web.DomainController do
   end
 
   def show(conn, %{"id" => id}, _user) do
-    domain = Repo.get!(Domain, id)
+    domain = Domains.get_domain!(id)
     render(conn, "show.html", domain: domain)
   end
 
   def edit(conn, %{"id" => id}, user) do
-    domain = Repo.get!(user_domains(user), id)
+    domain = Domains.get_domain!(user, id)
     changeset = Domain.changeset(domain)
     render(conn, "edit.html", domain: domain, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "domain" => domain_params}, user) do
-    domain = Repo.get!(user_domains(user), id)
+    domain = Domains.get_domain!(user, id)
     case Domains.update_domain(domain, domain_params) do
       {:ok, domain} ->
         conn
@@ -53,10 +52,10 @@ defmodule Switch.Web.DomainController do
   end
 
   def delete(conn, %{"id" => id}, user) do
-    domain = Repo.get!(user_domains(user), id)
-    Cache.delete(domain.name)
+    domain = Domains.get_domain!(user, id)
 
-    Repo.delete!(domain)
+    {:ok, _domain} = Domains.delete_domain(domain)
+
     conn
     |> put_flash(:info, "Domain deleted successfully.")
     |> redirect(to: domain_path(conn, :index))
@@ -65,9 +64,4 @@ defmodule Switch.Web.DomainController do
   def action(conn, _opts) do
     apply(__MODULE__, action_name(conn), [conn, conn.params, conn.assigns.current_user])
   end
-
-  defp user_domains(user) do
-    if user.admin, do: Domain, else: assoc(user, :domains)
-  end
-
 end

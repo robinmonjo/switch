@@ -50,6 +50,15 @@ defmodule Switch.DomainsTest do
     end
   end
 
+  describe "delete_domain/1" do
+    test "deletes the domain" do
+      user = insert_user()
+      domain = insert_domain(user, @valid_attrs)
+      assert {:ok, %Domain{}} = Domains.delete_domain(domain)
+      assert_raise Ecto.NoResultsError, fn -> Domains.get_domain!(user, domain.id) end
+    end
+  end
+
   describe "async_validate_name_and_redirect" do
     test "validate domains exists" do
       domain =
