@@ -20,14 +20,8 @@ defmodule Switch.Web.DomainController do
   end
 
   def create(conn, %{"domain" => domain_params}, user) do
-    changeset =
-      user
-      |> build_assoc(:domains)
-      |> Domain.changeset(domain_params)
-
-    case Repo.insert(changeset) do
+    case Domains.create_domain(user, domain_params) do
       {:ok, domain} ->
-        Domain.async_validate_name_and_redirect(domain)
         conn
         |> put_flash(:info, "Domain created successfully.")
         |> redirect(to: domain_path(conn, :index))
