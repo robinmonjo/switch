@@ -7,7 +7,6 @@ defmodule Switch.Web.DomainController do
 
   def index(conn, _params, _user) do
     domains = Domains.list_domains()
-
     render(conn, "index.html", domains: domains)
   end
 
@@ -43,11 +42,8 @@ defmodule Switch.Web.DomainController do
 
   def update(conn, %{"id" => id, "domain" => domain_params}, user) do
     domain = Repo.get!(user_domains(user), id)
-    changeset = Domain.changeset(domain, domain_params)
-    case Repo.update(changeset) do
+    case Domains.update_domain(domain, domain_params) do
       {:ok, domain} ->
-        Domains.async_validate_name_and_redirect(domain)
-        Cache.delete(domain.name)
         conn
         |> put_flash(:info, "Domain updated successfully.")
         |> redirect(to: domain_path(conn, :show, domain))

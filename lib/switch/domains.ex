@@ -3,6 +3,7 @@ defmodule Switch.Domains do
 
   alias Switch.Repo
   alias Switch.{Domain, User}
+  alias Switch.DomainsCache, as: Cache
 
   def list_domains() do
     domains = Repo.all(Domain) |> Repo.preload(:user)
@@ -17,6 +18,18 @@ defmodule Switch.Domains do
     case Repo.insert(changeset) do
       {:ok, domain} ->
         async_validate_name_and_redirect(domain)
+        {:ok, domain}
+      {:error, changeset} ->
+        {:error, changeset}
+    end
+  end
+
+  def update_domain(%Domain{} = domain, attrs) do
+    changeset = Domain.changeset(domain, attrs)
+    case Repo.update(changeset) do
+      {:ok, domain} ->
+        async_validate_name_and_redirect(domain)
+        Cache.delete(domain.name)
         {:ok, domain}
       {:error, changeset} ->
         {:error, changeset}

@@ -5,13 +5,14 @@ defmodule Switch.DomainsTest do
   alias Switch.{Domain, Domains, User}
 
   @valid_attrs %{name: "http://domain.com", redirect: "https://redirect.com"}
+  @valid_attrs_bis %{name: "http://domain1.com", redirect: "https://redirect2.com"}
   @invalid_attrs %{name: "domain.com", redirect: "invalid.com"}
 
   describe "list_domains/0" do
     test "list all domains and preload user" do
       user = insert_user()
-      domain1 = insert_domain(user, %{name: "http://domain1.com", redirect: "https://redirect1.com"})
-      domain2 = insert_domain(user, %{name: "http://domain2.com", redirect: "https://redirect2.com"})
+      insert_domain(user, @valid_attrs)
+      insert_domain(user, @valid_attrs_bis)
       assert [d1, d2] = Domains.list_domains()
       assert %User{} = d1.user
       assert %User{} = d2.user
@@ -29,7 +30,23 @@ defmodule Switch.DomainsTest do
 
     test "returns error when provided invalid attrs" do
       user = insert_user()
-      assert {:error, changeset} = Domains.create_domain(user, @invalid_attrs)
+      assert {:error, _changeset} = Domains.create_domain(user, @invalid_attrs)
+    end
+  end
+
+  describe "update_domain/2" do
+    test "update a domain with provided attrs" do
+      user = insert_user()
+      domain = insert_domain(user, @valid_attrs)
+      assert {:ok, %Domain{} = domain} = Domains.update_domain(domain, @valid_attrs_bis)
+      assert domain.name == @valid_attrs_bis.name
+      assert domain.redirect == @valid_attrs_bis.redirect
+    end
+
+    test "update_domain/2 with invalid data returns error changeset" do
+      user = insert_user()
+      domain = insert_domain(user, @valid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Domains.update_domain(domain, @invalid_attrs)
     end
   end
 
