@@ -32,14 +32,13 @@ defmodule Switch.Web.MeController do
   defp authenticate_me(conn, _opts) do
     id = conn.params["id"]
     %{current_user: user}  = conn.assigns
-    cond do
-      id != user.id ->
+    if id != user.id do
         conn
         |> put_flash(:error, "Not yourself")
         |> redirect(to: me_path(conn, :show, user))
         |> halt()
-      true ->
-        conn
+    else
+      conn
     end
   end
 

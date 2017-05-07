@@ -6,7 +6,8 @@ defmodule Switch.Domains do
   alias Switch.DomainsCache, as: Cache
 
   def list_domains() do
-    domains = Repo.all(Domain) |> Repo.preload(:user)
+    domains = Repo.all(Domain)
+    Repo.preload(domains, :user)
   end
 
   def get_domain!(%User{} = user, id) do
@@ -17,6 +18,16 @@ defmodule Switch.Domains do
 
   defp user_domains(user) do
     if user.admin, do: Domain, else: assoc(user, :domains)
+  end
+
+  def new_domain_changeset(%User{} = user) do
+    user
+    |> build_assoc(:domains)
+    |> Domain.changeset()
+  end
+
+  def domain_changeset(%Domain{} = domain) do
+    Domain.changeset(domain)
   end
 
   def create_domain(%User{} = user, attrs \\ {}) do
@@ -63,8 +74,8 @@ defmodule Switch.Domains do
     Task.async fn ->
       name_ok = domain_exists?(domain.name)
       redirect_ok = domain_exists?(domain.redirect)
-      Domain.changeset(domain, %{name_checked: name_ok, redirect_checked: redirect_ok})
-      |> Switch.Repo.update
+      changeset = Domain.changeset(domain, %{name_checked: name_ok, redirect_checked: redirect_ok})
+      Switch.Repo.update(changeset)
     end
   end
 

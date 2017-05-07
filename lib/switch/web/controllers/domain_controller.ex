@@ -1,7 +1,6 @@
 defmodule Switch.Web.DomainController do
   use Switch.Web, :controller
 
-  alias Switch.Domain
   alias Switch.Domains
 
   def index(conn, _params, _user) do
@@ -10,10 +9,7 @@ defmodule Switch.Web.DomainController do
   end
 
   def new(conn, _params, user) do
-    changeset =
-      user
-      |> build_assoc(:domains)
-      |> Domain.changeset()
+    changeset = Domains.new_domain_changeset(user)
     render(conn, "new.html", changeset: changeset)
   end
 
@@ -35,7 +31,7 @@ defmodule Switch.Web.DomainController do
 
   def edit(conn, %{"id" => id}, user) do
     domain = Domains.get_domain!(user, id)
-    changeset = Domain.changeset(domain)
+    changeset = Domains.domain_changeset(domain)
     render(conn, "edit.html", domain: domain, changeset: changeset)
   end
 
