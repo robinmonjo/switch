@@ -1,5 +1,6 @@
 defmodule Switch.Domains do
   import Ecto
+  import Ecto.Query
 
   alias Switch.Repo
   alias Switch.{Domain, User}
@@ -76,6 +77,29 @@ defmodule Switch.Domains do
       redirect_ok = domain_exists?(domain.redirect)
       changeset = Domain.changeset(domain, %{name_checked: name_ok, redirect_checked: redirect_ok})
       Switch.Repo.update(changeset)
+    end
+  end
+
+  def lookup_redirect(url) do
+    case Cache.lookup(url) do
+      :not_found ->
+        lookup_redirect_in_repo(url)
+      redirect_url ->
+        {:ok, redirect_url}
+    end
+  end
+
+  defp lookup_redirect_in_repo(url) do
+    query = from d in "domains",
+            where: d.name == ^url,
+            select: d.redirect
+
+    case Repo.all(query) do
+      [redirect | _] ->
+        Cache.add(url, redirect)
+        {:ok, redirect}
+      _ ->
+        :no_match
     end
   end
 

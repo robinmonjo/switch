@@ -1,10 +1,7 @@
 defmodule Switch.Web.HostSwitch do
   import Plug.Conn
 
-  alias Switch.Repo
-  alias Switch.DomainsCache, as: Cache
-
-  import Ecto.Query
+  alias Switch.Domains
 
   @hostname Application.fetch_env!(:switch, Switch)[:hostname]
 
@@ -16,7 +13,7 @@ defmodule Switch.Web.HostSwitch do
 
   # else this request should be redirected
   def call(%{host: host, scheme: scheme, request_path: request_path, query_string: query_string} = conn, _opts) do
-    case lookup_redirect("#{scheme}://#{host}") do
+    case Domains.lookup_redirect("#{scheme}://#{host}") do
       {:ok, redirect} ->
         query = if query_string == "", do: "", else: "?#{query_string}"
         conn
@@ -27,29 +24,6 @@ defmodule Switch.Web.HostSwitch do
         conn
         |> Phoenix.Controller.render(Switch.Web.RootView, "not_found.html", %{})
         |> halt
-    end
-  end
-
-  defp lookup_redirect(url) do
-    case Cache.lookup(url) do
-      :not_found ->
-        lookup_redirect_in_db(url)
-      redirect_url ->
-        {:ok, redirect_url}
-    end
-  end
-
-  defp lookup_redirect_in_db(url) do
-    query = from d in "domains",
-            where: d.name == ^url,
-            select: d.redirect
-
-    case Repo.all(query) do
-      [redirect | _] ->
-        Cache.add(url, redirect)
-        {:ok, redirect}
-      _ ->
-        :no_match
     end
   end
 
