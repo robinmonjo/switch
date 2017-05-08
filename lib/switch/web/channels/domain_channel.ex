@@ -2,7 +2,6 @@ defmodule Switch.Web.DomainChannel do
   use Switch.Web, :channel
 
   def join("domains:" <> domain_id, _params, socket) do
-    :timer.send_interval(5_000, :ping)
     {:ok, assign(socket, :domain_id, domain_id)}
   end
 
