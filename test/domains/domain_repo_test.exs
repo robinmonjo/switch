@@ -1,7 +1,7 @@
-defmodule Switch.DomainRepoTest do
+defmodule Switch.Domains.DomainRepoTest do
   use Switch.DataCase
 
-  alias Switch.Domain
+  alias Switch.Domains.Domain
 
   test "uniqueness of name" do
     url = "http://domain.com"

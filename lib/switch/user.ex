@@ -14,7 +14,7 @@ defmodule Switch.User do
     field :password, :string, virtual: true
     field :old_password, :string, virtual: true #used when updating password
 
-    has_many :domains, Switch.Domain
+    has_many :domains, Switch.Domains.Domain
 
     timestamps()
   end

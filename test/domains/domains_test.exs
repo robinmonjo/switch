@@ -2,7 +2,8 @@ defmodule Switch.DomainsTest do
   use Switch.DataCase, async: false
   import Switch.Fixtures
 
-  alias Switch.{Domain, Domains, User}
+  alias Switch.{Domains, User}
+  alias Switch.Domains.Domain
 
   @valid_attrs %{name: "http://domain.com", redirect: "https://redirect.com"}
   @valid_attrs_bis %{name: "http://domain1.com", redirect: "https://redirect2.com"}

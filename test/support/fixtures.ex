@@ -13,9 +13,8 @@ defmodule Switch.Fixtures do
   end
 
   def insert_domain(user, attrs \\ %{}) do
-    user
-    |> Ecto.build_assoc(:domains, attrs)
-    |> Repo.insert!()
+    {:ok, domain} = Switch.Domains.create_domain(user, attrs)
+    domain
   end
 
 end

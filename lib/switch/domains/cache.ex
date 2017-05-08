@@ -1,4 +1,4 @@
-defmodule Switch.DomainsCache do
+defmodule Switch.Domains.Cache do
   use GenServer
 
   def ets_table do

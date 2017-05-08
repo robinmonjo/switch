@@ -1,7 +1,7 @@
 defmodule Switch.Web.DomainControllerTest do
   use Switch.Web.AuthConnCase
 
-  alias Switch.Domain
+  alias Switch.Domains.Domain
   @valid_attrs %{name: "http://domain.com", redirect: "https://redirect.com"}
   @invalid_attrs %{name: "domain.com", redirect: "invalid.com"}
 

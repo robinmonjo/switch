@@ -3,8 +3,8 @@ defmodule Switch.Domains do
   import Ecto.Query
 
   alias Switch.Repo
-  alias Switch.{Domain, User}
-  alias Switch.DomainsCache, as: Cache
+  alias Switch.User
+  alias Switch.Domains.{Domain, Cache}
 
   def list_domains() do
     domains = Repo.all(Domain)

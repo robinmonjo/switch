@@ -1,4 +1,4 @@
-defmodule Switch.Domain do
+defmodule Switch.Domains.Domain do
   use Ecto.Schema
 
   import Ecto.Changeset

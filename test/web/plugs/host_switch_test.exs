@@ -1,15 +1,14 @@
 defmodule Switch.Web.HostSwitchTest do
   use Switch.Web.ConnCase
+  import Switch.Fixtures
 
-  alias Switch.Domain
-  alias Switch.DomainsCache, as: Cache
+  alias Switch.Domains.Cache
 
   test "redirect to the corresponding host redirect", %{conn: conn} do
     redirect = "https://redirect.com"
     domain = "http://abc.com"
 
-    cs = Domain.changeset(%Domain{}, %{name: domain, redirect: redirect})
-    Repo.insert!(cs)
+    insert_domain(insert_user(), %{name: domain, redirect: redirect})
 
     conn = %{conn | host: "abc.com"}
 
@@ -27,8 +26,7 @@ defmodule Switch.Web.HostSwitchTest do
   test "redirect with a path and a query", %{conn: conn} do
     redirect = "https://redirect.com"
 
-    cs = Domain.changeset(%Domain{}, %{name: "http://abc.com", redirect: redirect})
-    Repo.insert!(cs)
+    insert_domain(insert_user(), %{name: "http://abc.com", redirect: redirect})
 
     conn = %{conn | host: "abc.com"}
 

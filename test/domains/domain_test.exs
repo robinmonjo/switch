@@ -1,7 +1,7 @@
-defmodule Switch.DomainTest do
+defmodule Switch.Domains.DomainTest do
   use Switch.DataCase, async: true
 
-  alias Switch.Domain
+  alias Switch.Domains.Domain
 
   @valid_attrs %{name: "http://domain.com", redirect: "https://redirect.com"}
 
