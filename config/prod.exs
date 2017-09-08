@@ -63,8 +63,5 @@ config :switch, Switch,
 # Configure your database
 config :switch, Switch.Repo,
   adapter: Mongo.Ecto,
-  database: "switch",
-  password: System.get_env("MONGO_PASSWORD"),
-  username: "switch",
-  hostname: System.get_env("MONGO_REPL_HOSTS_PORT"),
+  url: System.get_env("MONGODB_URL"),
   pool_size: 20
