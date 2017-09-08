@@ -13,9 +13,13 @@ use Mix.Config
 # which you typically run after static files are built.
 config :switch, Switch.Web.Endpoint,
   http: [port: {:system, "PORT"}],
+  https: [port: 443],
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
-  secret_key_base: System.get_env("SECRET_KEY_BASE")
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
+  keyfile: "/etc/letsencrypt/live/switch.applidget.com/privkey.pem",
+  cacertfile: "/etc/letsencrypt/live/switch.applidget.com/chain.pem",
+  certfile: "/etc/letsencrypt/live/switch.applidget.com/cert.pem"
 
 # Do not print debug messages in production
 config :logger, level: :info
