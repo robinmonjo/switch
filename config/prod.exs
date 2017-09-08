@@ -19,7 +19,7 @@ config :switch, Switch.Web.Endpoint,
           certfile: "/etc/letsencrypt/live/switch.applidget.com/cert.pem"],
   url: [host: "switch.applidget.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
-  secret_key_base: System.get_env("SECRET_KEY_BASE"),
+  secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 
 # Do not print debug messages in production
