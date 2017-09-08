@@ -15,6 +15,7 @@ config :switch, Switch.Web.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/manifest.json"
+  secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -62,3 +63,12 @@ import_config "prod.secret.exs"
 
 config :switch, Switch,
   hostname: "switch.applidget.com"
+
+# Configure your database
+config :switch, Switch.Repo,
+  adapter: Mongo.Ecto,
+  database: "switch",
+  password: System.get_env("MONGO_PASSWORD")
+  username: "switch"
+  hostname: System.get_env("MONGO_REPL_HOSTS_PORT")
+  pool_size: 20
