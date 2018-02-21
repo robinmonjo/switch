@@ -3,6 +3,7 @@ defmodule Switch.Web.Endpoint do
 
   socket "/socket", Switch.Web.UserSocket
 
+  plug Switch.Web.UrlSwitch # where the logic happens
   plug Switch.Web.HostSwitch # where the logic happens
 
   # Serve at "/" the static files from "priv/static" directory.
