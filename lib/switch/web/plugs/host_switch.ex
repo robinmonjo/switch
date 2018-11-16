@@ -3,6 +3,7 @@ defmodule Switch.Web.HostSwitch do
 
   alias Switch.Domains
 
+  @letsencrypt_challenge_root_path "/.well-known/acme-challenge"
   @hostname Application.fetch_env!(:switch, Switch)[:hostname]
 
   # the plug that performs the domain switch
@@ -13,18 +14,21 @@ defmodule Switch.Web.HostSwitch do
 
   # else this request should be redirected
   def call(%{host: host, scheme: scheme, request_path: request_path, query_string: query_string} = conn, _opts) do
-    case Domains.lookup_redirect("#{scheme}://#{host}") do
-      {:ok, redirect} ->
-        query = if query_string == "", do: "", else: "?#{query_string}"
-        conn
-        |> put_resp_header("location", "#{redirect}#{request_path}#{query}")
-        |> resp(302, "You are being redirected.")
-        |> halt
-      :no_match ->
-        conn
-        |> Phoenix.Controller.render(Switch.Web.RootView, "not_found.html", %{})
-        |> halt
+    if String.starts_with?(request_path, @letsencrypt_challenge_root_path) do
+      conn
+    else
+      case Domains.lookup_redirect("#{scheme}://#{host}") do
+        {:ok, redirect} ->
+          query = if query_string == "", do: "", else: "?#{query_string}"
+          conn
+          |> put_resp_header("location", "#{redirect}#{request_path}#{query}")
+          |> resp(302, "You are being redirected.")
+          |> halt
+        :no_match ->
+          conn
+          |> Phoenix.Controller.render(Switch.Web.RootView, "not_found.html", %{})
+          |> halt
+      end
     end
   end
-
 end
