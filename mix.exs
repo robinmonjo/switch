@@ -36,6 +36,7 @@ defmodule Switch.Mixfile do
      {:mongodb_ecto, github: "michalmuskala/mongodb_ecto", branch: "ecto-2"},
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:plug_cowboy, "~> 1.0"},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 2.0"},
